@@ -6,9 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -70,7 +67,7 @@ public class MainFrame extends javax.swing.JFrame {
 	private JMenuItem newFileMenuItem;
 	private JMenu jMenu3;
 	private JMenuBar jMenuBar1;
-	private JButton selectGprsButton;
+//	private JButton selectGprsButton;
 	private String[] gprsName;
 
 	/**
@@ -106,11 +103,25 @@ public class MainFrame extends javax.swing.JFrame {
 					jScrollPane2.setBounds(24, 49, 762, 335);
 					jScrollPane2.setBackground(new java.awt.Color(255,255,255));
 					{
-						jPanel2 = new Gprs1Panel();
-//						jPanel2.setLayout(null);
+						jPanel2 = new JPanel();
+						jPanel2.setLayout(null);
 						jScrollPane2.setViewportView(jPanel2);
 						jPanel2.setBackground(new java.awt.Color(0,128,0));
 						jPanel2.setPreferredSize(new java.awt.Dimension(631, 325));
+						{
+							jButton1 = new JButton();
+							jPanel2.add(jButton1);
+							jButton1.setText("A");
+							jButton1.setBounds(60, 66, 73, 30);
+							jButton1.addActionListener(new OperationListener());
+						}
+						{
+							jButton2 = new JButton();
+							jPanel2.add(jButton2);
+							jButton2.setText("B");
+							jButton2.setBounds(234, 66, 73, 30);
+							jButton2.addActionListener(new OperationListener());
+						}
 //						{
 //							jButton1 = new JButton();
 //							jPanel2.add(jButton1);
@@ -133,27 +144,27 @@ public class MainFrame extends javax.swing.JFrame {
 //						}
 					}
 				}
-				{
-					ComboBoxModel jComboBox1Model = 
-							new DefaultComboBoxModel(gprsName);
-					jComboBox1 = new JComboBox();
-					jPanel1.add(jComboBox1);
-					jComboBox1.setModel(jComboBox1Model);
-					jComboBox1.setBounds(93, 12, 43, 24);
-				}
-				{
-					jLabel1 = new JLabel();
-					jPanel1.add(jLabel1);
-					jLabel1.setText("gprs名称");
-					jLabel1.setBounds(30, 16, 58, 17);
-				}
-				{
-					selectGprsButton = new JButton();
-					jPanel1.add(selectGprsButton);
-					selectGprsButton.setText("选择gprs");
-					selectGprsButton.setBounds(147, 12, 81, 24);
-					selectGprsButton.addActionListener(new ChangeGprsListener());
-				}
+//				{
+//					ComboBoxModel jComboBox1Model = 
+//							new DefaultComboBoxModel(gprsName);
+//					jComboBox1 = new JComboBox();
+//					jPanel1.add(jComboBox1);
+//					jComboBox1.setModel(jComboBox1Model);
+//					jComboBox1.setBounds(93, 12, 43, 24);
+//				}
+//				{
+//					jLabel1 = new JLabel();
+//					jPanel1.add(jLabel1);
+//					jLabel1.setText("gprs名称");
+//					jLabel1.setBounds(30, 16, 58, 17);
+//				}
+//				{
+//					selectGprsButton = new JButton();
+//					jPanel1.add(selectGprsButton);
+//					selectGprsButton.setText("选择gprs");
+//					selectGprsButton.setBounds(147, 12, 81, 24);
+//					selectGprsButton.addActionListener(new ChangeGprsListener());
+//				}
 			}
 			this.setSize(830, 495);
 			{
@@ -212,7 +223,8 @@ public class MainFrame extends javax.swing.JFrame {
 					{
 						copyMenuItem = new JMenuItem();
 						jMenu4.add(copyMenuItem);
-						copyMenuItem.setText("Copy");
+						copyMenuItem.setText("查看温湿度");
+						copyMenuItem.addActionListener(new ViewDatalistener());
 					}
 					{
 						pasteMenuItem = new JMenuItem();
@@ -247,11 +259,11 @@ public class MainFrame extends javax.swing.JFrame {
 
 	private void initDate(){
 		GprsAction gprsAction = new GprsAction();
-		ArrayList<GprsBean> gprsList = (ArrayList<GprsBean>) gprsAction.getAllGprs();
+		ArrayList<GprsBean> gprsList = (ArrayList<GprsBean>) gprsAction.getAllGprsBeans();
 		if(gprsList != null){
 			gprsName = new String[gprsList.size()];
 			for(int i = 0;i < gprsList.size();i++){
-				
+
 				gprsName[i] = gprsList.get(i).getName();
 			}
 		}
@@ -282,18 +294,27 @@ public class MainFrame extends javax.swing.JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			String itemName = e.getActionCommand(); 
+			final String itemName = e.getActionCommand(); 
 			System.out.println("itemName:"+itemName);
 			
-			OperationFrame opFrame = new OperationFrame(itemName);
-			opFrame.setLocationRelativeTo(null);
-			opFrame.setVisible(true);
+//			OperationFrame opFrame = new OperationFrame(itemName);
+//			opFrame.setLocationRelativeTo(null);
+//			opFrame.setVisible(true);
 			
 			SwingUtilities.invokeLater(new Runnable() {
 
 				@Override
 				public void run() {
-					
+					//选择每块地的具体图像
+					if(itemName.equals("A")){
+						Gprs1Frame inst = Gprs1Frame.getInstance();
+//						inst.setLocationRelativeTo(null);
+						inst.setVisible(true);
+					}else if(itemName.equals("B")){
+						Gprs2Frame inst = Gprs2Frame.getInstance();
+//						inst.setLocationRelativeTo(null);
+						inst.setVisible(true);
+					}
 				}
 			});
 		}
@@ -345,36 +366,46 @@ public class MainFrame extends javax.swing.JFrame {
 			// TODO Auto-generated method stub
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					EditFrame inst = new EditFrame();
-					inst.setLocationRelativeTo(null);
+					EditFrame inst = EditFrame.getInstance();
 					inst.setVisible(true);
 				}
 			});
 		}	
 	}
 	
-	class ChangeGprsListener implements ActionListener{
+	class ViewDatalistener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			final String name = (String) jComboBox1.getSelectedItem();
-			
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						if(name.equals("A")){
-							jPanel2 = new Gprs1Panel();
-							jScrollPane2.setViewportView(jPanel2);	
-						}else if(name.equals("B")){
-//							System.out.println("select B");
-							jPanel2 = new Gprs2Panel();
-							jScrollPane2.setViewportView(jPanel2);
-						}
-						MainFrame.this.validate();
-					}
-				});	
-				
-			
-		}
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					ViewDataFrame inst =ViewDataFrame.getInstance();
+					inst.setVisible(true);
+				}
+			});
+		}		
 	}
+	
+//	class ChangeGprsListener implements ActionListener{
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//			// TODO Auto-generated method stub
+//			final String name = (String) jComboBox1.getSelectedItem();
+//			
+//				SwingUtilities.invokeLater(new Runnable() {
+//					@Override
+//					public void run() {
+//						if(name.equals("A")){
+//							
+//						}else if(name.equals("B")){
+////							System.out.println("select B");
+//							
+//						}
+//						MainFrame.this.validate();
+//					}
+//				});	
+//				
+//			
+//		}
+//	}
 }

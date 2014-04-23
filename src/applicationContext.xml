@@ -20,5 +20,6 @@
 	<dubbo:reference id="switchService" interface="cn.edu.nju.gqx.provider.SwitchService" />
 	<dubbo:reference id="gprsService" interface="cn.edu.nju.gqx.provider.GprsService" />
 	<dubbo:reference id="zigbeeService" interface="cn.edu.nju.gqx.provider.ZigbeeService" />
+    <dubbo:reference id="taskService" interface="cn.edu.nju.gqx.provider.TaskService" />
 
 </beans>

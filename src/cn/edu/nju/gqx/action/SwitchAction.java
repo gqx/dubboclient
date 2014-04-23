@@ -2,6 +2,7 @@ package cn.edu.nju.gqx.action;
 
 import java.util.List;
 
+import cn.edu.nju.gqx.db.po.Switch;
 import cn.edu.nju.gqx.provider.SwitchService;
 
 public class SwitchAction {
@@ -20,4 +21,8 @@ public class SwitchAction {
 		return service.getAll();
 	}
 
+	public List<Switch> getSiwitchsByTid(int tid){
+		return service.getSwitchByTid(tid);
+	}
+	
 }

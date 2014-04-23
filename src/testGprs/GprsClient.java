@@ -13,6 +13,7 @@ public class GprsClient {
         InputStream is = null;  
         try {  
             client = new Socket("127.0.0.1", 2020);
+//            client = new Socket("115.126.38.13", 2020);
             os = client.getOutputStream();//  
             System.out.println("正在发送信息...");  
             System.out.println("信息内容:发了一条给到没有, 收到了请回复一样的信息"); 
@@ -86,7 +87,7 @@ public class GprsClient {
          //命令
          b[3] = (byte) 0xD1;
          //gprs mac
-         b[4] = (byte) 0x02;
+         b[4] = (byte) 0x03;
          b[5] = (byte) 0x02;
          b[6] = (byte) 0x03;
          b[7] = (byte) 0x04;
@@ -116,7 +117,7 @@ public class GprsClient {
         //命令
         b[3] = (byte) 0xD2;
         //zigbee mac
-        b[4] = (byte) 0x03;
+        b[4] = (byte) 0x07;
         b[5] = (byte) 0x02;
         b[6] = (byte) 0x03;
         b[7] = (byte) 0x04;
@@ -130,7 +131,7 @@ public class GprsClient {
         b[14] = (byte) 0x01;
         b[15] = (byte) 0x01;
         //gprs mac
-        b[16] = (byte) 0x02;
+        b[16] = (byte) 0x03;
         b[17] = (byte) 0x02;
         b[18] = (byte) 0x03;
         b[19] = (byte) 0x04;

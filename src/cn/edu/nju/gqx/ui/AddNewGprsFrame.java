@@ -107,6 +107,20 @@ public class AddNewGprsFrame extends javax.swing.JFrame {
 						boolean result = action.addNewGprsName(name);
 						if(result == true){
 							jLabel2.setText("添加成功，请启动gprs");
+							
+							Thread t = new Thread(new Runnable() {
+								public void run() {
+									try {
+										Thread.sleep(3 * 1000);
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								}
+							});
+							t.start();
+							
+							AddNewGprsFrame.this.dispose();
 						}else{
 							jLabel2.setText("命名不正确");
 						}
