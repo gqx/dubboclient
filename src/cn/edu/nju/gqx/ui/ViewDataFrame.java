@@ -1,5 +1,6 @@
 package cn.edu.nju.gqx.ui;
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -16,8 +17,18 @@ import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 import cn.edu.nju.gqx.action.GprsAction;
 import cn.edu.nju.gqx.db.po.Gprs;
+import cn.edu.nju.gqx.db.po.Historydata;
 import cn.edu.nju.gqx.ui.MainFrame.CloseHandler;
 
 
@@ -36,6 +47,8 @@ import cn.edu.nju.gqx.ui.MainFrame.CloseHandler;
 public class ViewDataFrame extends javax.swing.JFrame {
 	private JPanel jPanel1;
 	private JScrollPane jScrollPane1;
+	private JButton temperatureButton;
+	private JButton humidityButton;
 	private JButton refreshButton;
 	private JTable jTable1;
 	
@@ -46,6 +59,8 @@ public class ViewDataFrame extends javax.swing.JFrame {
 	private boolean refreshFlag = false;
 	private boolean closeFlag = false;
 	private static ViewDataFrame frame;
+	
+	private ArrayList<Gprs> gprsList;
 	
 	/**
 	* Auto-generated main method to display this JFrame
@@ -96,6 +111,8 @@ public class ViewDataFrame extends javax.swing.JFrame {
 				{
 					refreshButton = new JButton();
 					jPanel1.add(refreshButton);
+					jPanel1.add(getHumidityButton());
+					jPanel1.add(getJButton1());
 					refreshButton.setText("\u81ea\u52a8\u5237\u65b0");
 					refreshButton.setBounds(680, 47, 88, 24);
 					refreshButton.addActionListener(new RefreshListener());
@@ -130,11 +147,11 @@ public class ViewDataFrame extends javax.swing.JFrame {
 	
 	private void initData(){
 		GprsAction action = new GprsAction();
-		ArrayList<Gprs> list = (ArrayList<Gprs>) action.getAllGprs();
-		tableData = new String[list.size()][4];
-		if(list != null){
-			for(int i = 0;i < list.size();i++){
-				Gprs g = list.get(i);
+		gprsList = (ArrayList<Gprs>) action.getAllGprs();
+		tableData = new String[gprsList.size()][4];
+		if(gprsList != null){
+			for(int i = 0;i < gprsList.size();i++){
+				Gprs g = gprsList.get(i);
 				tableData[i][0] = g.getName();
 				tableData[i][1] = g.getTemperature()+"";
 				tableData[i][2] = g.getHumidity()+"";
@@ -158,6 +175,26 @@ public class ViewDataFrame extends javax.swing.JFrame {
 
 	}
 	
+	private JButton getHumidityButton() {
+		if(humidityButton == null) {
+			humidityButton = new JButton();
+			humidityButton.setText("\u67e5\u770b\u6e7f\u5ea6");
+			humidityButton.setBounds(680, 89, 88, 24);
+			humidityButton.addActionListener(new ViewHumidityListener());
+		}
+		return humidityButton;
+	}
+	
+	private JButton getJButton1() {
+		if(temperatureButton == null) {
+			temperatureButton = new JButton();
+			temperatureButton.setText("\u67e5\u770b\u6e29\u5ea6");
+			temperatureButton.setBounds(680, 129, 88, 24);
+			temperatureButton.addActionListener(new ViewTemperatureListener());
+		}
+		return temperatureButton;
+	}
+
 	private class RefreshListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -174,6 +211,58 @@ public class ViewDataFrame extends javax.swing.JFrame {
 		}	
 	}
 	
+	private class ViewHumidityListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			int row = jTable1.getSelectedRow();
+			int colum = jTable1.getSelectedColumn();
+			
+			if(row < 0){
+				JOptionPane.showMessageDialog(rootPane, "请选择一行");
+			}else{
+				Gprs gprs = gprsList.get(row);
+				GprsAction action = new GprsAction();
+				ArrayList<Historydata> dataList = (ArrayList<Historydata>)action.getTodayHistoryDataByGid(gprs.getId());
+				
+				DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+				for(Historydata data:dataList){
+					String hour  = data.getUpdate_time().substring(11,13);
+					dataset.addValue(data.getHumidity(), "湿度", hour);
+				} 
+				
+				createLineChart("湿度",dataset);
+			}	
+		}
+	}
+	
+	private class ViewTemperatureListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			int row = jTable1.getSelectedRow();
+			int colum = jTable1.getSelectedColumn();
+			
+			if(row < 0){
+				JOptionPane.showMessageDialog(rootPane, "请选择一行");
+			}else{
+				Gprs gprs = gprsList.get(row);
+				GprsAction action = new GprsAction();
+				ArrayList<Historydata> dataList = (ArrayList<Historydata>)action.getTodayHistoryDataByGid(gprs.getId());
+				
+				DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+				
+				for(Historydata data:dataList){
+					String hour  = data.getUpdate_time().substring(11,13);
+					dataset.addValue(data.getTemperature(), "温度", hour);
+				}
+				
+				createLineChart("温度",dataset);
+			}
+			
+		}
+	}
+	
 	/**
 	 * 关闭主窗口处理
 	 */
@@ -186,5 +275,31 @@ public class ViewDataFrame extends javax.swing.JFrame {
 			
 		}
 	}
+	
+	private void createLineChart(String name,DefaultCategoryDataset dataset) {        	      
+          
+        JFreeChart chart = ChartFactory.createLineChart("", "时间", "数值", dataset, PlotOrientation.VERTICAL, true, true, true);  
+        CategoryPlot plot = chart.getCategoryPlot();  
+        plot.getRangeAxis().setUpperMargin(0.15);  
+          
+        Font font = new Font("黑体", Font.BOLD, 15);  
+        chart.getLegend().setItemFont(font);  
+        chart.getTitle().setFont(font);  
+        plot.getDomainAxis().setTickLabelFont(font);  
+        plot.getDomainAxis().setLabelFont(font);  
+        plot.getRangeAxis().setLabelFont(font);  
+          
+        LineAndShapeRenderer lineAndShapeRenderer = (LineAndShapeRenderer) plot.getRenderer();  
+        lineAndShapeRenderer.setBaseLinesVisible(true);  
+        lineAndShapeRenderer.setBaseShapesVisible(true);  
+        lineAndShapeRenderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());  
+        lineAndShapeRenderer.setBaseItemLabelsVisible(true);  
+          
+        ChartFrame frame = new ChartFrame(name, chart);  
+        frame.pack();  
+        frame.setVisible(true);   
+          
+//        ChartUtilities.saveChartAsJPEG(new File("d:/testLineChart.jpg"), chart, 1024, 768);  
+    }  
 
 }

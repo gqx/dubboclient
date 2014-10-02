@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="students.xsl"?>
+
+<gprss>
+<gprs name="A">
+	<switch name="1" x="10" y="20" ></switch>
+	<switch name="2" x="60" y="20" ></switch>
+	<switch name="A-1-C" x="110" y="20" ></switch>
+	<switch name="A-1-D" x="160" y="20" ></switch>
+	<switch name="A-2-A" x="210" y="20" ></switch>
+	<switch name="A-2-B" x="260" y="20" ></switch>
+	<switch name="A-2-C" x="310" y="20" ></switch>
+	<switch name="A-2-D" x="360" y="20" ></switch>
+	<switch name="A-3" x="410" y="20" ></switch>
+	<switch name="A-3" x="460" y="20" ></switch>
+	<switch name="A-3" x="510" y="20" ></switch>
+	<switch name="A-3" x="560" y="20" ></switch>
+	<switch name="A-3" x="610" y="20" ></switch>
+	<switch name="A-3" x="660" y="20" ></switch>
+	<switch name="A-3" x="710" y="20" ></switch>
+	<switch name="A-3" x="760" y="20" ></switch>
+	<switch name="A-3" x="810" y="20" ></switch>
+	<switch name="A-3" x="860" y="20" ></switch>
+	<switch name="A-3" x="910" y="20" ></switch>
+	<switch name="A-3" x="960" y="20" ></switch>
+
+</gprs>
+<gprs name="B">
+	<switch name="B-1" x="10" y="70" ></switch>
+		<switch name="A-1" x="10" y="70" ></switch>
+	<switch name="A-2" x="60" y="70" ></switch>
+	<switch name="A-3" x="110" y="70" ></switch>
+	<switch name="A-3" x="160" y="70" ></switch>
+	<switch name="A-3" x="210" y="70" ></switch>
+	<switch name="A-3" x="260" y="70" ></switch>
+	<switch name="A-3" x="310" y="70" ></switch>
+	<switch name="A-3" x="360" y="70" ></switch>
+	<switch name="A-3" x="410" y="70" ></switch>
+	<switch name="A-3" x="460" y="70" ></switch>
+	<switch name="A-3" x="510" y="70" ></switch>
+	<switch name="A-3" x="560" y="70" ></switch>
+	<switch name="A-3" x="610" y="70" ></switch>
+	<switch name="A-3" x="660" y="70" ></switch>
+	<switch name="A-3" x="710" y="70" ></switch>
+	<switch name="A-3" x="760" y="70" ></switch>
+	<switch name="A-3" x="810" y="70" ></switch>
+	<switch name="A-3" x="860" y="70" ></switch>
+	<switch name="A-3" x="910" y="70" ></switch>
+	<switch name="A-3" x="960" y="70" ></switch>
+</gprs>
+<gprs name="C">
+	<switch name="C-1" x="10" y="120" ></switch>
+	<switch name="C-2" x="60" y="120" ></switch>
+	<switch name="C-3" x="110" y="120" ></switch>
+		<switch name="A-1" x="10" y="20" ></switch>
+	<switch name="A-2" x="60" y="120" ></switch>
+	<switch name="A-3" x="110" y="120" ></switch>
+	<switch name="A-3" x="160" y="120" ></switch>
+	<switch name="A-3" x="210" y="120" ></switch>
+	<switch name="A-3" x="260" y="120" ></switch>
+	<switch name="A-3" x="310" y="120" ></switch>
+	<switch name="A-3" x="360" y="120" ></switch>
+	<switch name="A-3" x="410" y="120" ></switch>
+	<switch name="A-3" x="460" y="120" ></switch>
+	<switch name="A-3" x="510" y="120" ></switch>
+	<switch name="A-3" x="560" y="120" ></switch>
+	<switch name="A-3" x="610" y="120" ></switch>
+	<switch name="A-3" x="660" y="120" ></switch>
+	<switch name="A-3" x="710" y="120" ></switch>
+	<switch name="A-3" x="760" y="120" ></switch>
+	<switch name="A-3" x="810" y="120" ></switch>
+	<switch name="A-3" x="860" y="120" ></switch>
+	<switch name="A-3" x="910" y="120" ></switch>
+	<switch name="A-3" x="960" y="120" ></switch>
+</gprs>
+</gprss>

@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-import cn.edu.nju.gqx.action.GetSwitchAction;
 import cn.edu.nju.gqx.action.SwitchAction;
 import cn.edu.nju.gqx.db.po.Switch;
 
@@ -60,7 +59,7 @@ public class OperationFrame extends javax.swing.JFrame {
 	public OperationFrame(String itemName) {	
 		super();
 		this.itemName = itemName;
-		swc = new GetSwitchAction().getSwitchBySid(itemName);
+		swc = new SwitchAction().getSwitchByName(itemName);
 		initGUI();
 	}
 	
@@ -74,7 +73,7 @@ public class OperationFrame extends javax.swing.JFrame {
 				jPanel1.setLayout(null);
 				{
 					cancelButton = new JButton();
-					jPanel1.add(cancelButton);
+//					jPanel1.add(cancelButton);
 					cancelButton.setText("取消");
 					cancelButton.setBounds(255, 150, 63, 24);
 				}
@@ -82,14 +81,14 @@ public class OperationFrame extends javax.swing.JFrame {
 					offButton = new JButton();
 					jPanel1.add(offButton);
 					offButton.setText("关阀");
-					offButton.setBounds(151, 150, 63, 24);
+					offButton.setBounds(307, 150, 63, 24);
 					offButton.addActionListener(new SwitchOffListener());
 				}
 				{
 					onButton = new JButton();
 					jPanel1.add(onButton);
 					onButton.setText("开阀");
-					onButton.setBounds(50, 150, 63, 24);
+					onButton.setBounds(109, 150, 63, 24);
 					onButton.addActionListener(new SwitchOnListener());
 				}
 				{
@@ -144,7 +143,7 @@ public class OperationFrame extends javax.swing.JFrame {
 			// TODO Auto-generated method stub
 			SwitchAction action = new SwitchAction();
 			action.switchOn(itemName);
-			swc = new GetSwitchAction().getSwitchBySid(itemName);
+			swc = new SwitchAction().getSwitchByName(itemName);
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
@@ -160,7 +159,7 @@ public class OperationFrame extends javax.swing.JFrame {
 			// TODO Auto-generated method stub
 			SwitchAction action = new SwitchAction();
 			action.switchOff(itemName);
-			swc = new GetSwitchAction().getSwitchBySid(itemName);
+			swc = new SwitchAction().getSwitchByName(itemName);
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {

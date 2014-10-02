@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="students.xsl"?>
+
+<gprss>
+<gprs name="P">
+<switch name="P-1-B" x="419" y="47" ></switch> 
+<switch name="P-2-B" x="468" y="95" ></switch> 
+<switch name="P-3-B" x="541" y="161" ></switch> 
+<switch name="P-4-B" x="396" y="73" ></switch> 
+<switch name="P-5-B" x="444" y="119" ></switch> 
+<switch name="P-6-B" x="515" y="189" ></switch> 
+<switch name="P-7-B" x="339" y="157" ></switch> 
+<switch name="P-8-B" x="375" y="186" ></switch> 
+<switch name="P-9-B" x="442" y="243" ></switch> 
+<switch name="P-10-B" x="279" y="230" ></switch> 
+<switch name="P-11-B" x="319" y="250" ></switch> 
+<switch name="P-12-B" x="401" y="294" ></switch> 
+<switch name="P-13-B" x="208" y="313" ></switch> 
+<switch name="P-14-B" x="288" y="357" ></switch> 
+<switch name="P-15-B" x="368" y="394" ></switch> 
+<switch name="P-15-A" x="349" y="429" ></switch> 
+<switch name="P-14-A" x="269" y="394" ></switch> 
+<switch name="P-13-A" x="191" y="349" ></switch> 
+<switch name="P-12-A" x="380" y="325" ></switch> 
+<switch name="P-11-A" x="301" y="280" ></switch> 
+<switch name="P-10-A" x="261" y="265" ></switch> 
+<switch name="P-9-A" x="422" y="265" ></switch> 
+<switch name="P-8-A" x="348" y="212" ></switch> 
+<switch name="P-7-A" x="315" y="182" ></switch> 
+<switch name="P-6-A" x="490" y="215" ></switch> 
+<switch name="P-5-A" x="419" y="147" ></switch> 
+<switch name="P-4-A" x="368" y="102" ></switch> 
+</gprs>
+<gprs name="Q">
+<switch name="Q-13-A" x="587" y="522" ></switch> 
+<switch name="Q-12-A" x="509" y="510" ></switch> 
+<switch name="Q-11-A" x="428" y="471" ></switch> 
+<switch name="Q-10-A" x="615" y="499" ></switch> 
+<switch name="Q-9-A" x="571" y="479" ></switch> 
+<switch name="Q-8-A" x="515" y="452" ></switch> 
+<switch name="Q-7-A" x="460" y="366" ></switch> 
+<switch name="Q-6-A" x="682" y="392" ></switch> 
+<switch name="Q-5-A" x="611" y="330" ></switch> 
+<switch name="Q-4-A" x="555" y="271" ></switch> 
+<switch name="Q-3-B" x="731" y="339" ></switch> 
+<switch name="Q-2-B" x="660" y="277" ></switch> 
+<switch name="Q-1-B" x="603" y="222" ></switch> 
+<switch name="Q-11-B" x="447" y="437" ></switch> 
+<switch name="Q-10-B" x="634" y="467" ></switch> 
+<switch name="Q-9-B" x="589" y="445" ></switch> 
+<switch name="Q-8-B" x="535" y="422" ></switch> 
+<switch name="Q-7-B" x="481" y="328" ></switch> 
+<switch name="Q-6-B" x="704" y="369" ></switch> 
+<switch name="Q-5-B" x="636" y="306" ></switch> 
+<switch name="Q-4-B" x="576" y="246" ></switch> 
+</gprs>
+<gprs name="R">
+<switch name="R-1-B" x="807" y="447" ></switch> 
+<switch name="R-2-B" x="874" y="503" ></switch> 
+<switch name="R-3-B" x="911" y="536" ></switch> 
+<switch name="R-4-B" x="789" y="484" ></switch> 
+<switch name="R-5-B" x="853" y="543" ></switch> 
+<switch name="R-6-B" x="890" y="577" ></switch> 
+<switch name="R-7-B" x="726" y="575" ></switch> 
+<switch name="R-8-B" x="803" y="598" ></switch> 
+<switch name="R-9-B" x="858" y="641" ></switch> 
+<switch name="R-10-A" x="687" y="643" ></switch> 
+<switch name="R-11-A" x="764" y="675" ></switch> 
+<switch name="R-12-A" x="823" y="709" ></switch> 
+<switch name="R-4-A" x="771" y="519" ></switch> 
+<switch name="R-5-A" x="836" y="569" ></switch> 
+<switch name="R-6-A" x="876" y="602" ></switch> 
+<switch name="R-7-A" x="712" y="599" ></switch> 
+<switch name="R-8-A" x="786" y="630" ></switch> 
+<switch name="R-9-A" x="844" y="668" ></switch> 
+</gprs>
+<gprs name="S">
+<switch name="S-1-A" x="954" y="761" ></switch> 
+<switch name="S-2-A" x="1028" y="819" ></switch> 
+<switch name="S-3-A" x="881" y="757" ></switch> 
+<switch name="S-4-A" x="933" y="800" ></switch> 
+<switch name="S-5-A" x="997" y="856" ></switch> 
+<switch name="S-3-B" x="898" y="727" ></switch> 
+</gprs>
+<gprs name="T">
+<switch name="T-14-B" x="169" y="691" ></switch> 
+<switch name="T-13-B" x="95" y="643" ></switch> 
+<switch name="T-12-B" x="16" y="595" ></switch> 
+<switch name="T-11-B" x="282" y="647" ></switch> 
+<switch name="T-10-B" x="254" y="631" ></switch> 
+<switch name="T-9-B" x="212" y="606" ></switch> 
+<switch name="T-8-B" x="133" y="560" ></switch> 
+<switch name="T-7-B" x="97" y="537" ></switch> 
+<switch name="T-6-B" x="268" y="554" ></switch> 
+<switch name="T-5-B" x="190" y="509" ></switch> 
+<switch name="T-4-B" x="111" y="470" ></switch> 
+<switch name="T-3-B" x="319" y="491" ></switch> 
+<switch name="T-2-B" x="243" y="449" ></switch> 
+<switch name="T-1-B" x="163" y="409" ></switch> 
+<switch name="T-11-A" x="265" y="682" ></switch> 
+<switch name="T-10-A" x="238" y="662" ></switch> 
+<switch name="T-9-A" x="193" y="640" ></switch> 
+<switch name="T-8-A" x="118" y="592" ></switch> 
+<switch name="T-7-A" x="77" y="568" ></switch> 
+<switch name="T-6-A" x="253" y="579" ></switch> 
+<switch name="T-5-A" x="175" y="534" ></switch> 
+<switch name="T-4-A" x="98" y="493" ></switch> 
+<switch name="T-3-A" x="302" y="521" ></switch> 
+<switch name="T-2-A" x="224" y="480" ></switch> 
+<switch name="T-1-A" x="142" y="440" ></switch> 
+</gprs>
+<gprs name="U">
+<switch name="U-12-B" x="399" y="828" ></switch> 
+<switch name="U-11-B" x="324" y="781" ></switch> 
+<switch name="U-10-B" x="244" y="737" ></switch> 
+<switch name="U-9-B" x="454" y="753" ></switch> 
+<switch name="U-8-B" x="374" y="705" ></switch> 
+<switch name="U-7-B" x="318" y="673" ></switch> 
+<switch name="U-6-B" x="502" y="683" ></switch> 
+<switch name="U-5-B" x="426" y="641" ></switch> 
+<switch name="U-4-B" x="346" y="599" ></switch> 
+<switch name="U-3-B" x="539" y="607" ></switch> 
+<switch name="U-2-B" x="464" y="565" ></switch> 
+<switch name="U-1-B" x="399" y="536" ></switch> 
+<switch name="U-9-A" x="436" y="786" ></switch> 
+<switch name="U-8-A" x="353" y="738" ></switch> 
+<switch name="U-7-A" x="303" y="703" ></switch> 
+<switch name="U-6-A" x="487" y="712" ></switch> 
+<switch name="U-5-A" x="406" y="671" ></switch> 
+<switch name="U-4-A" x="330" y="622" ></switch> 
+<switch name="U-3-A" x="522" y="637" ></switch> 
+<switch name="U-2-A" x="447" y="592" ></switch> 
+<switch name="U-1-A" x="382" y="566" ></switch>  
+
+</gprs>
+
+
+</gprss>

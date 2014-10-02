@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="students.xsl"?>
+
+<maps>
+<map id="1" xmlPath="button1.xml" background="1.jpg" x="650" y="450" realWidth="985" realHeight="1093"></map>
+<map id="2" xmlPath="button2.xml" background="2.jpg" x="650" y="450" realWidth="1092" realHeight="887"></map>
+</maps>

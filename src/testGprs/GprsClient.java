@@ -12,13 +12,13 @@ public class GprsClient {
         OutputStream os = null;  
         InputStream is = null;  
         try {  
-            client = new Socket("127.0.0.1", 2020);
+            client = new Socket("115.28.85.14", 2020);
 //            client = new Socket("115.126.38.13", 2020);
             os = client.getOutputStream();//  
             System.out.println("正在发送信息...");  
             System.out.println("信息内容:发了一条给到没有, 收到了请回复一样的信息"); 
            
-            byte[] b = getTestBytesD2();
+            byte[] b = getTestBytesD1();
             
             System.out.println(Integer.toHexString(b[0]));
             os.write(b);//发送信息  
@@ -87,7 +87,7 @@ public class GprsClient {
          //命令
          b[3] = (byte) 0xD1;
          //gprs mac
-         b[4] = (byte) 0x03;
+         b[4] = (byte) 0x05;
          b[5] = (byte) 0x02;
          b[6] = (byte) 0x03;
          b[7] = (byte) 0x04;
@@ -113,11 +113,12 @@ public class GprsClient {
 		 //帧头
         b[0] = (byte) 0xFE;
         b[1] = (byte) 0x01;
-        b[2] = (byte) 0x00;
+        //type
+        b[2] = (byte) 0x02;
         //命令
         b[3] = (byte) 0xD2;
         //zigbee mac
-        b[4] = (byte) 0x07;
+        b[4] = (byte) 0x05;
         b[5] = (byte) 0x02;
         b[6] = (byte) 0x03;
         b[7] = (byte) 0x04;
@@ -131,7 +132,7 @@ public class GprsClient {
         b[14] = (byte) 0x01;
         b[15] = (byte) 0x01;
         //gprs mac
-        b[16] = (byte) 0x03;
+        b[16] = (byte) 0x01;
         b[17] = (byte) 0x02;
         b[18] = (byte) 0x03;
         b[19] = (byte) 0x04;
@@ -148,6 +149,89 @@ public class GprsClient {
         b[30] = (byte) 0x0F;
          
         b[31] = FCS(b, 1, 26);
+        
+        return b;
+	}
+
+	private byte[] getTestBytesD3(){
+		 byte[] b = new byte[23];
+		 //帧头
+         b[0] = (byte) 0xFE;
+         //数据长度
+         b[1] = (byte) 0x01;
+         b[2] = (byte) 0x00;
+         //命令
+         b[3] = (byte) 0xD3;
+         //gprs mac
+         b[4] = (byte) 0x03;
+         b[5] = (byte) 0x02;
+         b[6] = (byte) 0x03;
+         b[7] = (byte) 0x04;
+         b[8] = (byte) 0x05;
+         b[9] = (byte) 0x06;
+         b[10] = (byte) 0x07;
+         b[11] = (byte) 0x08;
+         b[12] = (byte) 0x09;
+         b[13] = (byte) 0x0A;
+         b[14] = (byte) 0x0B;
+         b[15] = (byte) 0x0C;
+         b[16] = (byte) 0x0D;
+         b[17] = (byte) 0x0E;
+         b[18] = (byte) 0x0F;
+         
+         b[19] = (byte) 0x01;
+         b[20] = (byte) 0x02;
+         b[21] = (byte) 0x03;
+         //校验
+         b[22] = FCS(b, 1, 21);
+         
+         return b;
+	}
+	
+	private byte[] getTestBytesD4(){
+		 byte[] b = new byte[33];
+		 //帧头
+        b[0] = (byte) 0xFE;
+        //数据长度
+        b[1] = (byte) 0x01;
+        b[2] = (byte) 0x00;
+        //命令
+        b[3] = (byte) 0xD4;
+        //gprs mac
+        b[4] = (byte) 0x01;
+        b[5] = (byte) 0x02;
+        b[6] = (byte) 0x03;
+        b[7] = (byte) 0x04;
+        b[8] = (byte) 0x05;
+        b[9] = (byte) 0x06;
+        b[10] = (byte) 0x07;
+        b[11] = (byte) 0x08;
+        b[12] = (byte) 0x09;
+        b[13] = (byte) 0x0A;
+        b[14] = (byte) 0x0B;
+        b[15] = (byte) 0x0C;
+        b[16] = (byte) 0x0D;
+        b[17] = (byte) 0x0E;
+        b[18] = (byte) 0x0F;
+      //zigbee mac
+        b[19] = (byte) 0x05;
+        b[20] = (byte) 0x02;
+        b[21] = (byte) 0x03;
+        b[22] = (byte) 0x04;
+        b[23] = (byte) 0x05;
+        b[24] = (byte) 0x06;
+        b[25] = (byte) 0x07;
+        b[26] = (byte) 0x08;
+       
+        
+        b[27] = (byte) 0x03;
+        b[28] = (byte) 0x06;
+        b[29] = (byte) 0x03;
+        b[30] = (byte) 0x03;
+        b[31] = (byte) 0x03;
+        
+        //校验
+        b[32] = FCS(b, 1, 31);
         
         return b;
 	}

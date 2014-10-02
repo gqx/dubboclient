@@ -7,10 +7,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
-import cn.edu.nju.gqx.action.AddGprsNameAction;
+import cn.edu.nju.gqx.action.GprsAction;
 
 
 /**
@@ -103,7 +103,7 @@ public class AddNewGprsFrame extends javax.swing.JFrame {
 					// TODO Auto-generated method stub
 					String name = gprsNameText.getText();
 					if(name != ""){
-						AddGprsNameAction action = new AddGprsNameAction();
+						GprsAction action = new GprsAction();
 						boolean result = action.addNewGprsName(name);
 						if(result == true){
 							jLabel2.setText("添加成功，请启动gprs");
