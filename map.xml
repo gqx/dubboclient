@@ -2,6 +2,6 @@
 <?xml-stylesheet type="text/xsl" href="students.xsl"?>
 
 <maps>
-<map id="1" xmlPath="button1.xml" background="1.jpg" x="650" y="450" realWidth="985" realHeight="1093"></map>
-<map id="2" xmlPath="button2.xml" background="2.jpg" x="650" y="450" realWidth="1092" realHeight="887"></map>
+<map id="1" sysname="一号系统" xmlPath="button1.xml" background="1.jpg" x="600" y="400" realWidth="985" realHeight="1093"></map>
+<map id="2" sysname="二号系统" xmlPath="button2.xml" background="2.jpg" x="600" y="400" realWidth="1092" realHeight="887"></map>
 </maps>

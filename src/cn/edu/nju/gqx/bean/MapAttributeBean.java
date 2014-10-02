@@ -6,6 +6,7 @@ public class MapAttributeBean {
 	private int realWidth;
 	private String xmlPath;
 	private String bgImgPath;
+	private String sysname;
 	public String getMapId() {
 		return mapId;
 	}
@@ -35,5 +36,11 @@ public class MapAttributeBean {
 	}
 	public void setBgImgPath(String bgImgPath) {
 		this.bgImgPath = bgImgPath;
+	}
+	public String getSysname() {
+		return sysname;
+	}
+	public void setSysname(String sysname) {
+		this.sysname = sysname;
 	}	
 }

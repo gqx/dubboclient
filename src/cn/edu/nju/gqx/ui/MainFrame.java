@@ -11,7 +11,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -23,15 +23,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
-
 import org.dom4j.Element;
-
-import cn.edu.nju.gqx.action.PressureAction;
 import cn.edu.nju.gqx.action.TurnAction;
 import cn.edu.nju.gqx.bean.MapAttributeBean;
-import cn.edu.nju.gqx.provider.TurnService;
 import cn.edu.nju.gqx.util.XmlUtil;
-
 import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
@@ -56,8 +51,6 @@ public class MainFrame extends javax.swing.JFrame {
 		}
 	}
 
-	private JMenuItem helpMenuItem;
-	private JMenu jMenu5;
 	private JPanel jPanel2;
 	private JScrollPane jScrollPane2;
 	private JPanel jPanel1;
@@ -68,16 +61,12 @@ public class MainFrame extends javax.swing.JFrame {
 	private JMenuItem viewTurnMenuItem;
 	private JMenuItem viewDataMenuItem;
 	private JMenuItem editMenuItem;
-	private JLabel infoLabel3;
-	private JLabel infoLabel2;
 	private JMenu jMenu4;
 	private JMenuItem exitMenuItem;
 	private JSeparator jSeparator2;
 	private JMenuItem closeFileMenuItem;
 	private JMenuItem saveAsMenuItem;
 	private JMenuItem saveMenuItem;
-	private JLabel infoLabel1;
-	private JLabel notifyLabel;
 	private JMenuItem openFileMenuItem;
 	private JMenuItem newFileMenuItem;
 	private JMenu jMenu3;
@@ -85,11 +74,13 @@ public class MainFrame extends javax.swing.JFrame {
 	
 	private boolean infoFlag = true;
 	
+	
 //	private JButton selectGprsButton;
-	private ArrayList<String> mapIds;
 	private HashMap<String,MapAttributeBean> mapAttrBeanMap = new HashMap<String,MapAttributeBean>();
 
 	private ArrayList<JButton> buttonList = new ArrayList<JButton>();
+	private HashMap<String,JLabel> inforLabelMap = new HashMap<String, JLabel>();
+	
 	/**
 	 * Auto-generated main method to display this JFrame
 	 */
@@ -134,16 +125,10 @@ public class MainFrame extends javax.swing.JFrame {
 			jPanel1.setBackground(new java.awt.Color(192,192,192));
 			
 			{
-				notifyLabel = new JLabel();
-				jPanel1.add(notifyLabel, new AnchorConstraint(829, 68, 860, 8, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-				notifyLabel.setText("\u7cfb\u7edf\u4fe1\u606f:");
-				notifyLabel.setPreferredSize(new java.awt.Dimension(59, 21));
-			}
-			{
 				jScrollPane2 = new JScrollPane();
-				jPanel1.add(jScrollPane2, new AnchorConstraint(27, 986, 796, 7, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				jPanel1.add(jScrollPane2, new AnchorConstraint(27, 986, 873, 4, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jScrollPane2.setBackground(new java.awt.Color(255,255,255));
-				jScrollPane2.setPreferredSize(new java.awt.Dimension(963, 520));
+				jScrollPane2.setPreferredSize(new java.awt.Dimension(966, 548));
 				{
 					jPanel2 = new JPanel();
 					jPanel2.setLayout(null);
@@ -153,29 +138,11 @@ public class MainFrame extends javax.swing.JFrame {
 					
 				}
 			}
-			{
-				infoLabel1 = new JLabel();
-				jPanel1.add(infoLabel1, new AnchorConstraint(830, 980, 860, 100, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-//				infoLabel1.setText("系统1：应开阀门数量：10    实开阀门数量：10    水泵压力值：10");
-				infoLabel1.setPreferredSize(new java.awt.Dimension(895, 19));
-			}
-			{
-				infoLabel2 = new JLabel();
-				jPanel1.add(infoLabel2, new AnchorConstraint(890, 980, 920, 100, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-//				infoLabel2.setText("系统1：应开阀门数量：10    实开阀门数量：10    水泵压力值：10");
-				infoLabel2.setPreferredSize(new java.awt.Dimension(897, 19));
-			}
-			{
-				infoLabel3 = new JLabel();
-				jPanel1.add(infoLabel3, new AnchorConstraint(950, 980, 980, 100, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-//				infoLabel3.setText("系统1：应开阀门数量：10    实开阀门数量：10    水泵压力值：10");
-				infoLabel3.setPreferredSize(new java.awt.Dimension(895, 19));
-			}
 
 		}
 		this.addWindowListener(new CloseHandler());
 		try {
-			this.setSize(1000, 740);
+			this.setSize(1000, 708);
 			{
 				jMenuBar1 = new JMenuBar();
 				setJMenuBar(jMenuBar1);
@@ -282,16 +249,15 @@ public class MainFrame extends javax.swing.JFrame {
 	}
 	
 	private void initButtonByConfig(){
-		Iterator i = XmlUtil.readXml("map.xml");
+		Iterator<?> i = XmlUtil.readXml("map.xml");
 		int height = 350;//在mainframe的地图的高
 		int width = 455;//在mainframe的地图的宽
-		final int widthInterval = 10;//左右两个地图间距
-		final int heightInterval = 10;//上下两个地图间距
+		final int widthInterval = 45;//左右两个地图间距
+		final int heightInterval = 50;//上下两个地图间距
 		int x = 0;
 		int y = 0;
 	
 		
-		mapIds = new ArrayList<String>();
 		int mapNum = 0;
 		while (i.hasNext()) {
 //			System.out.println("======");
@@ -299,15 +265,17 @@ public class MainFrame extends javax.swing.JFrame {
 			String id = map.attributeValue("id");
 			height = Integer.parseInt(map.attributeValue("y"));
 			width = Integer.parseInt(map.attributeValue("x"));
+			String sysname = map.attributeValue("sysname");
 			
 			int iId = Integer.parseInt(id);
 			x = (iId-1)%2 == 0?widthInterval: widthInterval*2+width;
 			y = (iId-1)/2*(height+heightInterval)+5;
 			String background = map.attributeValue("background");
 			System.out.println(background);
-			addButton(id,x,y,width,height,background);	
+			addMapPanel(id,sysname,x,y,width,height,background);	
 			MapAttributeBean mb = new MapAttributeBean();
 			mb.setMapId(id);
+			mb.setSysname(sysname);
 			mb.setXmlPath(map.attributeValue("xmlPath"));
 			mb.setBgImgPath(background);
 			mb.setRealHeight(Integer.parseInt(map.attributeValue("realHeight")));
@@ -321,10 +289,18 @@ public class MainFrame extends javax.swing.JFrame {
 		jPanel2.setPreferredSize(new java.awt.Dimension(panleWidth, panelHeight));
 	}
 	
-	private void addButton(String name,int x,int y,int width,int height,String background){
+	private void addMapPanel(String id,String sysname,int x,int y,int width,int height,String background){
+		JPanel jPanel = new JPanel();
+		jPanel.setPreferredSize(new java.awt.Dimension(width, height+50));
+		jPanel.setBounds(x, y, width, height+50);
+		jPanel.setBackground(Color.WHITE);
+		BoxLayout jPanelLayout = new BoxLayout(jPanel, javax.swing.BoxLayout.Y_AXIS);
+		jPanel.setLayout(jPanelLayout);
+		
+		jPanel2.add(jPanel);
+
 		JButton jButton = new JButton();
-		jPanel2.add(jButton);
-		jButton.setText(name);
+		jButton.setText(id);
 		jButton.setBounds(x, y, width, height);
 		Font f=new Font("Arial",Font.PLAIN,12);
 		jButton.setBorder(null);
@@ -336,7 +312,16 @@ public class MainFrame extends javax.swing.JFrame {
 		ImageIcon icon=new ImageIcon(background);
 		icon=new ImageIcon(icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
 		jButton.setIcon(icon);
+		jPanel.add(jButton);
 		buttonList.add(jButton);
+		
+		String blank ="                          ";
+		JLabel label = new JLabel(blank+sysname);
+		label.setPreferredSize(new java.awt.Dimension(width, 59));
+//		label.setBounds(x, y, 897, 19);
+		label.setBackground(Color.BLUE);
+		jPanel.add(label);
+		inforLabelMap.put(sysname, label);
 	}
 	
 	class EditActionListener implements ActionListener {
@@ -364,48 +349,20 @@ public class MainFrame extends javax.swing.JFrame {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			final String itemName = e.getActionCommand(); 
-			System.out.println("itemName:"+itemName);
-			
-			MapAttributeBean mb = mapAttrBeanMap.get(itemName);
-			MapFrame mapFrame  = MapFrame.getInstance(mb.getXmlPath());System.out.println(mb.getMapId());
-			mapFrame.setBackgroundImg(mb.getBgImgPath());System.out.println(mb.getBgImgPath());
-			mapFrame.setIconHeight(mb.getRealHeight());System.out.println(mb.getRealHeight());
-			mapFrame.setIconWidth(mb.getRealWidth());
-			mapFrame.setLocationRelativeTo(null);
-			mapFrame.setVisible(true);
-			
-//			CheckBoxTreeNode node = switchMap.get(itemName);
-//			
-//			if(node != null)
-//			{
-//				boolean isSelected = !node.isSelected();
-//				node.setSelected(isSelected);
-//				((DefaultTreeModel)tree.getModel()).nodeStructureChanged(node);
-//				CheckBoxTreeNode parentNode = (CheckBoxTreeNode) node.getParent();
-//				expandAll(tree, new TreePath(parentNode.getPath()), true);
-//			}
-//					
+
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					MapAttributeBean mb = mapAttrBeanMap.get(itemName);
+					MapFrame mapFrame  = MapFrame.getInstance(mb.getXmlPath());
+					mapFrame.setBackgroundImg(mb.getBgImgPath());System.out.println(mb.getBgImgPath());
+					mapFrame.setIconHeight(mb.getRealHeight());System.out.println(mb.getRealHeight());
+					mapFrame.setIconWidth(mb.getRealWidth());
+					mapFrame.setLocationRelativeTo(null);
+					mapFrame.setVisible(true);
+				}
+			});
 			
 			
-//			SwingUtilities.invokeLater(new Runnable() {
-//
-//				@Override
-//				public void run() {
-//					OperationFrame opFrame = new OperationFrame(itemName);
-//					opFrame.setLocationRelativeTo(null);
-//					opFrame.setVisible(true);
-//					//选择每块地的具体图像
-//					if(itemName.equals("A")){
-//						Gprs1Frame inst = Gprs1Frame.getInstance();
-////						inst.setLocationRelativeTo(null);
-//						inst.setVisible(true);
-//					}else if(itemName.equals("B")){
-//						Gprs2Frame inst = Gprs2Frame.getInstance();
-////						inst.setLocationRelativeTo(null);
-//						inst.setVisible(true);
-//					}
-//				}
-//			});
 		}
 	}
 
@@ -524,14 +481,16 @@ public class MainFrame extends javax.swing.JFrame {
 	//系统状态
 	private void refreshSystemState(){
 		TurnAction action = new TurnAction();
-		String[][] state = action.getSystemState();
-		if(state != null){
-			infoLabel1.setText(state[0][0]);
-			infoLabel1.setForeground(state[0][1].equals("ok")?Color.black:Color.red);
-			infoLabel2.setText(state[1][0]);
-			infoLabel2.setForeground(state[1][1].equals("ok")?Color.black:Color.red);
-			infoLabel3.setText(state[2][0]);
-			infoLabel3.setForeground(state[2][1].equals("ok")?Color.black:Color.red);
+		
+		Iterator<String> i = inforLabelMap.keySet().iterator();
+		while(i.hasNext()){
+			String sysname = (String) i.next();
+			String[][] state = action.getSystemStateBySysname(sysname);
+			if(state != null){
+				JLabel label = inforLabelMap.get(sysname);
+				label.setText(state[0][0]);
+				label.setForeground(state[0][1].equals("ok")?Color.black:Color.red);
+			}
 		}
 	}
 }

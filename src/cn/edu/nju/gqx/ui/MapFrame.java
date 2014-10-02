@@ -159,9 +159,9 @@ public class MapFrame extends javax.swing.JFrame {
 				}
 				{
 					refreshButton = new JButton();
-					jPanel1.add(refreshButton, new AnchorConstraint(33, 329, 71, 253, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+					jPanel1.add(refreshButton, new AnchorConstraint(33, 345, 70, 250, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 					refreshButton.setText("\u5237\u65b0\u754c\u9762");
-					refreshButton.setPreferredSize(new java.awt.Dimension(75, 26));
+					refreshButton.setPreferredSize(new java.awt.Dimension(93, 25));
 					refreshButton.addActionListener(new RefreshListener());
 				}
 				{

@@ -59,10 +59,10 @@ public class TurnAction {
 			for(int i = 0; i < sysnames.size();i++){
 				String sysname = sysnames.get(i);
 				ArrayList<Switch> list1 = service.getRunningTaskSwitchesBySysname(sysname);
-				ArrayList<Switch> list2 = service.getOnSwitchesBySysname(sysname);
+				long onSwitchNumBySysname = service.getOnSwitchNumBySysname(sysname);
 				result[i][0] = sysname+": "+"  应开阀门数量: "+list1.size()+
-						"   实开阀门数量: "+list2.size()+getPressureBySysname(sysname);
-				if(Math.abs(list1.size()-list2.size()) < 3){
+						"   实开阀门数量: "+onSwitchNumBySysname+getPressureBySysname(sysname);
+				if(Math.abs(list1.size()-onSwitchNumBySysname) < 3){
 					result[i][1] = "ok";
 				}else{
 					result[i][1] = "nok";
@@ -72,6 +72,21 @@ public class TurnAction {
 		}else{
 			return null;
 		}
+	}
+	
+	public String[][] getSystemStateBySysname(String sysname){
+		String[][] result = new String[1][2];
+		ArrayList<Switch> list1 = service.getRunningTaskSwitchesBySysname(sysname);
+		long onSwitchNumBySysname = service.getOnSwitchNumBySysname(sysname);
+		String blank ="                          ";
+		result[0][0] = blank+sysname+": "+"  应开阀门数量: "+list1.size()+
+				"   实开阀门数量: "+onSwitchNumBySysname+getPressureBySysname(sysname);
+		if(Math.abs(list1.size()-onSwitchNumBySysname) < 3){
+			result[0][1] = "ok";
+		}else{
+			result[0][1] = "nok";
+		}
+		return result;
 	}
 	
 	private String getPressureBySysname(String sysname){
