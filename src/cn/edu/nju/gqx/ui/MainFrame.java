@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,10 +24,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
+
 import org.dom4j.Element;
+
 import cn.edu.nju.gqx.action.TurnAction;
 import cn.edu.nju.gqx.bean.MapAttributeBean;
 import cn.edu.nju.gqx.util.XmlUtil;
+
 import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
@@ -53,6 +57,7 @@ public class MainFrame extends javax.swing.JFrame {
 
 	private JPanel jPanel2;
 	private JScrollPane jScrollPane2;
+	private JButton startAllGroupTaskButton;
 	private JPanel jPanel1;
 	private JMenuItem deleteMenuItem;
 	private JSeparator jSeparator1;
@@ -61,6 +66,8 @@ public class MainFrame extends javax.swing.JFrame {
 	private JMenuItem viewTurnMenuItem;
 	private JMenuItem viewDataMenuItem;
 	private JMenuItem editMenuItem;
+	private JButton restartAllGroupTaskButton;
+	private JButton stopAllGroupTaskButton;
 	private JMenu jMenu4;
 	private JMenuItem exitMenuItem;
 	private JSeparator jSeparator2;
@@ -119,16 +126,23 @@ public class MainFrame extends javax.swing.JFrame {
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		{
 			jPanel1 = new JPanel();
-			getContentPane().add(jPanel1, BorderLayout.CENTER);
 			AnchorLayout jPanel1Layout = new AnchorLayout();
+			getContentPane().add(jPanel1, BorderLayout.CENTER);
 			jPanel1.setLayout(jPanel1Layout);
 			jPanel1.setBackground(new java.awt.Color(192,192,192));
-			
+			{
+				startAllGroupTaskButton = new JButton();
+				jPanel1.add(startAllGroupTaskButton, new AnchorConstraint(902, 246, 963, 120, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				startAllGroupTaskButton.setText("\u4ece\u5934\u5f00\u59cb\u4efb\u52a1");
+				startAllGroupTaskButton.setBounds(100, 591, 126, 41);
+				startAllGroupTaskButton.addActionListener(new StartAllListener());
+			}
+
 			{
 				jScrollPane2 = new JScrollPane();
 				jPanel1.add(jScrollPane2, new AnchorConstraint(27, 986, 873, 4, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jScrollPane2.setBackground(new java.awt.Color(255,255,255));
-				jScrollPane2.setPreferredSize(new java.awt.Dimension(966, 548));
+				jScrollPane2.setBounds(3, 18, 967, 558);
 				{
 					jPanel2 = new JPanel();
 					jPanel2.setLayout(null);
@@ -137,6 +151,20 @@ public class MainFrame extends javax.swing.JFrame {
 					//						jPanel2.setPreferredSize(new java.awt.Dimension(1000, 1000));
 					
 				}
+			}
+			{
+				restartAllGroupTaskButton = new JButton();
+				jPanel1.add(restartAllGroupTaskButton, new AnchorConstraint(902, 556, 963, 430, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				restartAllGroupTaskButton.setText("\u4ece\u5f53\u524d\u5f00\u59cb\u4efb\u52a1");
+				restartAllGroupTaskButton.setBounds(260, 591, 126, 41);
+				restartAllGroupTaskButton.addActionListener(new ResumeAllListener());
+			}
+			{
+				stopAllGroupTaskButton = new JButton();
+				jPanel1.add(stopAllGroupTaskButton, new AnchorConstraint(902, 866, 963, 740, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				stopAllGroupTaskButton.setText("\u7ed3\u675f\u4efb\u52a1");
+				stopAllGroupTaskButton.setBounds(740, 588, 126, 41);
+				stopAllGroupTaskButton.addActionListener(new StopAllListener());
 			}
 
 		}
@@ -276,7 +304,9 @@ public class MainFrame extends javax.swing.JFrame {
 			MapAttributeBean mb = new MapAttributeBean();
 			mb.setMapId(id);
 			mb.setSysname(sysname);
-			mb.setXmlPath(map.attributeValue("xmlPath"));
+			mb.setXmlPath(map.attributeValue("xmlPath"));System.out.println("*******+ "+map.attributeValue("treeXmlPath"));
+			mb.setTreeXmlPath(map.attributeValue("treeXmlPath"));
+			
 			mb.setBgImgPath(background);
 			mb.setRealHeight(Integer.parseInt(map.attributeValue("realHeight")));
 			mb.setRealWidth(Integer.parseInt(map.attributeValue("realWidth")));
@@ -352,11 +382,9 @@ public class MainFrame extends javax.swing.JFrame {
 
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
+					System.out.println("itemname:"+itemName);
 					MapAttributeBean mb = mapAttrBeanMap.get(itemName);
-					MapFrame mapFrame  = MapFrame.getInstance(mb.getXmlPath());
-					mapFrame.setBackgroundImg(mb.getBgImgPath());System.out.println(mb.getBgImgPath());
-					mapFrame.setIconHeight(mb.getRealHeight());System.out.println(mb.getRealHeight());
-					mapFrame.setIconWidth(mb.getRealWidth());
+					MapFrame mapFrame  = MapFrame.getInstance(mb);
 					mapFrame.setLocationRelativeTo(null);
 					mapFrame.setVisible(true);
 				}
@@ -490,6 +518,43 @@ public class MainFrame extends javax.swing.JFrame {
 				JLabel label = inforLabelMap.get(sysname);
 				label.setText(state[0][0]);
 				label.setForeground(state[0][1].equals("ok")?Color.black:Color.red);
+			}
+		}
+	}
+	
+	private class StartAllListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			TurnAction action = new TurnAction();
+			action.startTaskBySysname("all");
+		}
+	}
+	
+	private class ResumeAllListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int option = JOptionPane.showConfirmDialog(MainFrame.this, "开启任务后请开启水泵！", "提示",
+					JOptionPane.YES_NO_OPTION);
+			if (option == JOptionPane.YES_OPTION) {
+				TurnAction action = new TurnAction();
+				action.resumeTaskBySysname("all");
+			} else if (option == JOptionPane.NO_OPTION) {
+				return;			
+			}
+		}
+	}
+	
+	private class StopAllListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			int option = JOptionPane.showConfirmDialog(MainFrame.this, "请确保水泵已经关闭！", "提示",
+					JOptionPane.YES_NO_OPTION);
+			if (option == JOptionPane.YES_OPTION) {
+				TurnAction action = new TurnAction();
+				action.stopTaskBySysname("all");
+			} else if (option == JOptionPane.NO_OPTION) {
+				return;			
 			}
 		}
 	}

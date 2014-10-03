@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -36,7 +37,9 @@ import org.dom4j.Element;
 
 import cn.edu.nju.gqx.action.GprsAction;
 import cn.edu.nju.gqx.action.SwitchAction;
+import cn.edu.nju.gqx.action.TurnAction;
 import cn.edu.nju.gqx.bean.GprsBean;
+import cn.edu.nju.gqx.bean.MapAttributeBean;
 import cn.edu.nju.gqx.checkboxtree.CheckBoxTreeCellRenderer;
 import cn.edu.nju.gqx.checkboxtree.CheckBoxTreeNode;
 import cn.edu.nju.gqx.db.po.Switch;
@@ -63,7 +66,7 @@ public class MapFrame extends javax.swing.JFrame {
 	private JScrollPane jScrollPane2;
 	private JLabel taskTextLabel;
 	private JLabel taskLabel;
-	private JLabel switchNamaTextLabel;
+	private JLabel switchNameTextLabel;
 	private JLabel switchNameLabel;
 	private JButton onButton;
 	private JButton offButton;
@@ -73,6 +76,9 @@ public class MapFrame extends javax.swing.JFrame {
 	private JTree tree;
 	private ArrayList<String> gprsnames;
 	private HashMap<String,CheckBoxTreeNode> gprsNodeMap = new HashMap<String,CheckBoxTreeNode>();
+	private JButton stopGroupTaskButton;
+	private JButton resumeGroupTaskButton;
+	private JButton startGroupTaskButton;
 	private HashMap<String,CheckBoxTreeNode> zigbeeNodeMap = new HashMap<String,CheckBoxTreeNode>();
 	private HashMap<String,CheckBoxTreeNode> switchNodeMap = new HashMap<String,CheckBoxTreeNode>();
 
@@ -82,11 +88,9 @@ public class MapFrame extends javax.swing.JFrame {
 	private Map<String,JButton> buttonMap = new HashMap<String,JButton>();
 	private Border borderIn = BorderFactory.createBevelBorder(BevelBorder.LOWERED,Color.black,Color.black, Color.black,Color.black); 
 	private static MapFrame instance;
-	private static String xmlPath;
+//	private static String xmlPath;
 //	private static HashMap<String,String> pathlist = new HashMap<String, String>();
-	private String backgroundImg;
-	private int iconWidth = 1000;
-	private int iconHeight = 1000;
+	private static MapAttributeBean mb;
 	
 	/**
 	* Auto-generated main method to display this JFrame
@@ -108,8 +112,9 @@ public class MapFrame extends javax.swing.JFrame {
 		initGUI();
 	}
 	
-	public static MapFrame getInstance(String xmlPath){
-		MapFrame.xmlPath = xmlPath;	
+	public static MapFrame getInstance(MapAttributeBean mb){
+//		MapFrame.xmlPath = xmlPath;	
+		MapFrame.mb = mb;
 		if(instance == null){
 			instance = new MapFrame();
 		}else{
@@ -142,15 +147,15 @@ public class MapFrame extends javax.swing.JFrame {
 						jPanel2 = new JPanel(){
 							 @Override  
 					            protected void paintComponent(Graphics g) {  
-								    ImageIcon icon = new ImageIcon(backgroundImg);  
+								    ImageIcon icon = new ImageIcon(mb.getBgImgPath());  
 					                Image img = icon.getImage();
 					                
 //					                System.out.println("jpanel2"+icon.getIconWidth()+"  "+icon.getIconHeight());
-					                g.drawImage(img, 0, 0, iconWidth, iconHeight, icon.getImageObserver());  
+					                g.drawImage(img, 0, 0, mb.getRealWidth(), mb.getRealHeight(), icon.getImageObserver());  
 					             // 细致渲染、绘制背景，可控制截取图片，显示于指定的JPanel位置  
 //					              g.drawImage(img, 0, 0, frameSize.width, frameSize.height,   
 //					                          0, 0, icon.getIconWidth(), icon.getIconHeight(), icon.getImageObserver());  
-					            this.setPreferredSize(new java.awt.Dimension(iconWidth, iconHeight));							 }
+					            this.setPreferredSize(new java.awt.Dimension(mb.getRealHeight(), mb.getRealHeight()));							 }
 						};
 						jPanel2.setBackground(new java.awt.Color(0,128,0));
 						jPanel2.setLayout(null);
@@ -159,23 +164,23 @@ public class MapFrame extends javax.swing.JFrame {
 				}
 				{
 					refreshButton = new JButton();
-					jPanel1.add(refreshButton, new AnchorConstraint(33, 345, 70, 250, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+					jPanel1.add(refreshButton, new AnchorConstraint(24, 351, 70, 250, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 					refreshButton.setText("\u5237\u65b0\u754c\u9762");
-					refreshButton.setPreferredSize(new java.awt.Dimension(93, 25));
+					refreshButton.setPreferredSize(new java.awt.Dimension(99, 31));
 					refreshButton.addActionListener(new RefreshListener());
 				}
 				{
 					onButton = new JButton();
-					jPanel1.add(onButton, new AnchorConstraint(922, 101, 962, 45, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+					jPanel1.add(onButton, new AnchorConstraint(913, 97, 965, 12, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 					onButton.setText("\u6253\u5f00");
-					onButton.setPreferredSize(new java.awt.Dimension(55, 27));
+					onButton.setPreferredSize(new java.awt.Dimension(83, 35));
 					onButton.addActionListener(new OnListener());
 				}
 				{
 					offButton = new JButton();
-					jPanel1.add(offButton, new AnchorConstraint(922, 192, 962, 136, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+					jPanel1.add(offButton, new AnchorConstraint(913, 225, 965, 140, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 					offButton.setText("\u5173\u95ed");
-					offButton.setPreferredSize(new java.awt.Dimension(55, 27));
+					offButton.setPreferredSize(new java.awt.Dimension(83, 35));
 					offButton.addActionListener(new OffListener());
 				}
 			}
@@ -196,16 +201,45 @@ public class MapFrame extends javax.swing.JFrame {
 		gbeans = (ArrayList<GprsBean>) action.getGprsBeans(gprsnames);
 		
 		tree = new JTree();  
-        CheckBoxTreeNode rootNode = new CheckBoxTreeNode("root");
-		
+        CheckBoxTreeNode rootNode = new CheckBoxTreeNode("所有");
+        Iterator i = XmlUtil.readXml(mb.getTreeXmlPath());
+    	while (i.hasNext()) {
+//			System.out.println("======");
+			Element eday = (Element) i.next();
+			String day = "第"+eday.attributeValue("id")+"天";
+			
+			CheckBoxTreeNode dNode = new CheckBoxTreeNode(day);
+			rootNode.add(dNode);
+			
+			Iterator igroup = eday.elementIterator();
+			while(igroup.hasNext()){
+				Element egroup = (Element) igroup.next();
+				String group = "第"+egroup.attributeValue("id")+"组";
+				
+				CheckBoxTreeNode gNode = new CheckBoxTreeNode(group);
+				dNode.add(gNode);
+				
+				Iterator iswitch = egroup.elementIterator();
+				while(iswitch.hasNext()){
+					Element eswitch = (Element) iswitch.next();
+					String sname = eswitch.attributeValue("name");
+					CheckBoxTreeNode sNode = new CheckBoxTreeNode(sname);
+					gNode.add(sNode);
+					switchNodeMap.put(sname, sNode);
+				}
+			}
+    	}
+			
+
+        
         	
-        Iterator i = buttonMap.keySet().iterator();
-        while(i.hasNext()){
-        	String switchName = (String) i.next();
-        	CheckBoxTreeNode sNode = new CheckBoxTreeNode(switchName);
-			rootNode.add(sNode);
-			switchNodeMap.put(switchName, sNode);
-        }
+//        Iterator i = buttonMap.keySet().iterator();
+//        while(i.hasNext()){
+//        	String switchName = (String) i.next();
+//        	CheckBoxTreeNode sNode = new CheckBoxTreeNode(switchName);
+//			rootNode.add(sNode);
+//			switchNodeMap.put(switchName, sNode);
+//        }
 	
         DefaultTreeModel model = new DefaultTreeModel(rootNode);  
         tree.addMouseListener(new TreeNodeListener());  
@@ -215,6 +249,9 @@ public class MapFrame extends javax.swing.JFrame {
 //		expandAll(tree,new TreePath(rootNode),true);
 		jScrollPane1 = new JScrollPane(tree);
 		jPanel1.add(jScrollPane1, new AnchorConstraint(89, 230, 882, 11, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+		jPanel1.add(getStartGroupTaskButton(), new AnchorConstraint(914, 650, 965, 530, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+		jPanel1.add(getResumeGroupTaskButton(), new AnchorConstraint(914, 800, 965, 680, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+		jPanel1.add(getStopGroupTaskButton(), new AnchorConstraint(914, 950, 965, 830, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 		jScrollPane1.setPreferredSize(new java.awt.Dimension(215, 535));
 
 	}
@@ -285,7 +322,7 @@ public class MapFrame extends javax.swing.JFrame {
 	}
 	
 	private void initButtonByConfig(){
-		Iterator i = XmlUtil.readXml(xmlPath);
+		Iterator i = XmlUtil.readXml(mb.getXmlPath());
 		final int lenght = 20;
 		final int width = 35;
 		int x = 0;
@@ -430,12 +467,12 @@ public class MapFrame extends javax.swing.JFrame {
 	}
 	
 	private JLabel getSwitchNameTextLabel() {
-		if(switchNamaTextLabel == null) {
-			switchNamaTextLabel = new JLabel();
-			switchNamaTextLabel.setText("jLabel1");
-			switchNamaTextLabel.setPreferredSize(new java.awt.Dimension(66, 15));
+		if(switchNameTextLabel == null) {
+			switchNameTextLabel = new JLabel();
+			switchNameTextLabel.setText("jLabel1");
+			switchNameTextLabel.setPreferredSize(new java.awt.Dimension(66, 15));
 		}
-		return switchNamaTextLabel;
+		return switchNameTextLabel;
 	}
 	
 	private JLabel getTaskLabel() {
@@ -494,9 +531,10 @@ public class MapFrame extends javax.swing.JFrame {
 			
 			 Switch swc = action.getSwitchByName(switchName);
 			 if(swc != null){
-				 switchNamaTextLabel.setText(swc.getName());
-				 if(swc.getTid() != null && swc.getTid() != 0){
-					 taskTextLabel.setText(swc.getTid()+"");
+				 switchNameTextLabel.setText(swc.getName());
+				 String turntaskName = new TurnAction().getTurnTaskNameBySwitchName(switchName);
+				 if(turntaskName != null){
+					 taskTextLabel.setText(turntaskName);
 				 }else{
 					 taskTextLabel.setText("无");
 				 }
@@ -514,28 +552,78 @@ public class MapFrame extends javax.swing.JFrame {
 		
 	}
 
-	public String getBackgroundImg() {
-		return backgroundImg;
+	public MapAttributeBean getMb() {
+		return mb;
 	}
 
-	public void setBackgroundImg(String backgroundImg) {
-		this.backgroundImg = backgroundImg;
-	}
-
-	public int getIconWidth() {
-		return iconWidth;
-	}
-
-	public void setIconWidth(int iconWidth) {
-		this.iconWidth = iconWidth;
-	}
-
-	public int getIconHeight() {
-		return iconHeight;
-	}
-
-	public void setIconHeight(int iconHeight) {
-		this.iconHeight = iconHeight;
+	public void setMb(MapAttributeBean mb) {
+		this.mb = mb;
 	};
+	
+	private JButton getStartGroupTaskButton() {
+		if(startGroupTaskButton == null) {
+			startGroupTaskButton = new JButton();
+			startGroupTaskButton.setText("\u4ece\u5934\u5f00\u59cb\u4efb\u52a1");
+			startGroupTaskButton.setPreferredSize(new java.awt.Dimension(120, 36));
+			startGroupTaskButton.addActionListener(new StartGroupTaskListener());
+		}
+		return startGroupTaskButton;
+	}
+	
+	private JButton getResumeGroupTaskButton() {
+		if(resumeGroupTaskButton == null) {
+			resumeGroupTaskButton = new JButton();
+			resumeGroupTaskButton.setText("\u4ece\u5f53\u524d\u5f00\u59cb\u4efb\u52a1");
+			resumeGroupTaskButton.setPreferredSize(new java.awt.Dimension(120, 36));
+			resumeGroupTaskButton.addActionListener(new ResumeGroupTaskListener());
+		}
+		return resumeGroupTaskButton;
+	}
+	
+	private JButton getStopGroupTaskButton() {
+		if(stopGroupTaskButton == null) {
+			stopGroupTaskButton = new JButton();
+			stopGroupTaskButton.setText("\u7ed3\u675f\u4efb\u52a1");
+			stopGroupTaskButton.setPreferredSize(new java.awt.Dimension(120, 36));
+			stopGroupTaskButton.addActionListener(new StopGroupTaskListener());
+		}
+		return stopGroupTaskButton;
+	}
 
+	private class StartGroupTaskListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			TurnAction action = new TurnAction();
+			action.startTaskBySysname(mb.getSysname());
+		}	
+	}
+	
+	private class ResumeGroupTaskListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int option = JOptionPane.showConfirmDialog(MapFrame.this, "开启任务后请开启水泵！", "提示",
+					JOptionPane.YES_NO_OPTION);
+			if (option == JOptionPane.YES_OPTION) {
+				TurnAction action = new TurnAction();
+				action.resumeTaskBySysname(mb.getSysname());
+			} else if (option == JOptionPane.NO_OPTION) {
+				return;			
+			}
+		}	
+	}
+	
+	private class StopGroupTaskListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int option = JOptionPane.showConfirmDialog(MapFrame.this, "请确保水泵已经关闭！", "提示",
+					JOptionPane.YES_NO_OPTION);
+			if (option == JOptionPane.YES_OPTION) {
+				TurnAction action = new TurnAction();
+				action.stopTaskBySysname(mb.getSysname());
+			} else if (option == JOptionPane.NO_OPTION) {
+				return;			
+			}
+		}	
+	}
+	
 }

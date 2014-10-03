@@ -7,6 +7,7 @@ public class MapAttributeBean {
 	private String xmlPath;
 	private String bgImgPath;
 	private String sysname;
+	private String treeXmlPath;
 	public String getMapId() {
 		return mapId;
 	}
@@ -42,5 +43,12 @@ public class MapAttributeBean {
 	}
 	public void setSysname(String sysname) {
 		this.sysname = sysname;
+	}
+	public String getTreeXmlPath() {
+		return treeXmlPath;
+	}
+	public void setTreeXmlPath(String treeXmlPath) {
+		this.treeXmlPath = treeXmlPath;
 	}	
+	
 }

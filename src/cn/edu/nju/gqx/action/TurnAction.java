@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import cn.edu.nju.gqx.db.po.Switch;
 import cn.edu.nju.gqx.db.po.Turngroup;
 import cn.edu.nju.gqx.db.po.Turntask;
+import cn.edu.nju.gqx.provider.SwitchService;
 import cn.edu.nju.gqx.provider.TurnService;
 
 public class TurnAction {
@@ -37,19 +38,27 @@ public class TurnAction {
 		return service.getTurngroupByGrpid(grpid);
 	}
 	
-	public void restartTaskBySysname(String sysname){
-		service.stopAutoTaskBySysname(sysname);
+	public void startTaskBySysname(String sysname){
+		//to prevent the pump broken,do not stop switches,only stop the thread
+		service.stopAutoTaskBySysname(sysname,false);
+		//init all tasks,groups and tokens 
 		service.createTurngroupByConfig();
 		service.createTurntaskByConfig();
+		//true means today is the first day to start
 		service.startAutoTaskBySysname(true,sysname);
 	}
 	
+	public void pauseTaskBySysname(String sysname){
+		service.stopAutoTaskBySysname(sysname,false);
+	}
+	
 	public void resumeTaskBySysname(String sysname){
+		//false means it will go on checking the token and date
 		service.startAutoTaskBySysname(false,sysname);
 	}
 	
 	public void stopTaskBySysname(String sysname){
-		service.stopAutoTaskBySysname(sysname);
+		service.stopAutoTaskBySysname(sysname,true);
 	}
 	
 	public String[][] getSystemState(){
@@ -97,5 +106,9 @@ public class TurnAction {
 		}else{
 			return "   水泵压力: 无数值";
 		}
+	}
+	
+	public String getTurnTaskNameBySwitchName(String switchName){
+		return service.getTurntaskNameBySwitchName(switchName);
 	}
 }

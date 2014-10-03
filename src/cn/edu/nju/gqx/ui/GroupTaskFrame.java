@@ -330,7 +330,7 @@ public class GroupTaskFrame extends javax.swing.JFrame {
 			// TODO Auto-generated method stub
 			TurnAction action = new TurnAction();
 			String sysname = selectedSysname.equals(defaultSysname)?"all":selectedSysname;
-			action.restartTaskBySysname(sysname);
+			action.startTaskBySysname(sysname);
 			
 		}
 	}
