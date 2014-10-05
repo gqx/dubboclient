@@ -7,24 +7,7 @@
 <day id="1">
 <group id="1">
 <switch name="A-1-A"></switch>
-<switch name="A-2-A"></switch>
-<switch name="A-1-A"></switch>
-<switch name="A-2-A"></switch>
-<switch name="A-1-A"></switch>
-<switch name="A-2-A"></switch>
-<switch name="A-1-A"></switch>
-<switch name="A-2-A"></switch>
-<switch name="A-1-A"></switch>
-<switch name="A-2-A"></switch>
-<switch name="A-1-A"></switch>
-<switch name="A-2-A"></switch>
-<switch name="A-1-A"></switch>
-<switch name="A-2-A"></switch>
-<switch name="A-1-A"></switch>
-<switch name="A-2-A"></switch>
-<switch name="A-1-A"></switch>
-<switch name="A-2-A"></switch>
-<switch name="A-1-A"></switch>
+<switch name="A-1-B"></switch>
 <switch name="A-2-A"></switch>
 </group>
 <group id="2">
