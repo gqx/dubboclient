@@ -594,7 +594,14 @@ public class MapFrame extends javax.swing.JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			TurnAction action = new TurnAction();
-			action.startTaskBySysname(mb.getSysname());
+			String daysBeforeStart = JOptionPane.showInputDialog(MapFrame.this, "请输入几天后执行任务：");
+			try{
+				action.startTaskBySysname(mb.getSysname(),Integer.parseInt(daysBeforeStart));
+				JOptionPane.showMessageDialog(MapFrame.this, "任务已启动！将在"+daysBeforeStart+"天后执行", "提示",
+						JOptionPane.YES_NO_OPTION);
+			}catch(NumberFormatException exception){
+				JOptionPane.showMessageDialog(MapFrame.this, "请输入阿拉伯数字！");
+			}
 		}	
 	}
 	

@@ -229,7 +229,7 @@ public class PumpFrame extends javax.swing.JFrame {
 			int[] selectRows = jTable1.getSelectedRows();
 			for (int i = 0; i < selectRows.length; i++) {
 				SwitchAction switchAction = new SwitchAction();
-				switchAction.switchOn(tableData[selectRows[i]][2]);
+				switchAction.switchOff(tableData[selectRows[i]][2]);
 			}
 			updateTable();
 		}

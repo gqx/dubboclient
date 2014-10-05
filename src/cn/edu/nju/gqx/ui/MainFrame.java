@@ -109,13 +109,13 @@ public class MainFrame extends javax.swing.JFrame {
 			public void run() {
 				// TODO Auto-generated method stub
 				while(infoFlag){
+					refreshSystemState();
 					try {
-						Thread.sleep(1000*2);
+						Thread.sleep(1000*20);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					refreshSystemState();		
 				}
 			}
 		});
@@ -526,7 +526,18 @@ public class MainFrame extends javax.swing.JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			TurnAction action = new TurnAction();
-			action.startTaskBySysname("all");
+			
+			String daysBeforeStart = JOptionPane.showInputDialog(MainFrame.this, "请输入几天后执行任务：");
+			
+			try{
+				action.startTaskBySysname("all",Integer.parseInt(daysBeforeStart));
+				JOptionPane.showMessageDialog(MainFrame.this, "任务已启动！将在"+daysBeforeStart+"天后执行", "提示",
+						JOptionPane.YES_NO_OPTION);
+			}catch(NumberFormatException exception){
+				JOptionPane.showMessageDialog(MainFrame.this, "请输入阿拉伯数字！"+daysBeforeStart);
+			}
+			
+			
 		}
 	}
 	

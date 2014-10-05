@@ -13,7 +13,7 @@ public class TurnAction {
 	
 	public void initTurnTask(){
 		service.createTurngroupByConfig();
-		service.createTurntaskByConfig();
+		service.createTurntaskByConfig(0);
 	}
 	
 	public String[] getSysnames(){
@@ -38,12 +38,12 @@ public class TurnAction {
 		return service.getTurngroupByGrpid(grpid);
 	}
 	
-	public void startTaskBySysname(String sysname){
+	public void startTaskBySysname(String sysname,int daysBeforeStart){
 		//to prevent the pump broken,do not stop switches,only stop the thread
 		service.stopAutoTaskBySysname(sysname,false);
 		//init all tasks,groups and tokens 
 		service.createTurngroupByConfig();
-		service.createTurntaskByConfig();
+		service.createTurntaskByConfig(daysBeforeStart);
 		//true means today is the first day to start
 		service.startAutoTaskBySysname(true,sysname);
 	}

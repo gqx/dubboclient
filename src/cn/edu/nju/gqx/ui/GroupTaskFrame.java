@@ -11,6 +11,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -52,7 +53,7 @@ public class GroupTaskFrame extends javax.swing.JFrame {
 	private JButton startButton;
 	private JComboBox jComboBox1;
 	private JTable jTable1;
-	private String[] tableHeader = { "轮灌组编号", "工作支管编号", "开始时间","结束时间","持续时间", "工作状态" };
+	private String[] tableHeader = { "轮灌组编号", "工作支管编号","日期", "开始时间","结束时间","持续时间", "工作状态" };
 	private String[][] tableData;
 	private String[] sysnames;
 	private String selectedSysname = "all";
@@ -108,7 +109,7 @@ public class GroupTaskFrame extends javax.swing.JFrame {
 		TurnAction action = new TurnAction();
 		ArrayList<Turntask> tasklist = action.getRunnableTurntaskBySysname(sysname);
 		
-		tableData = new String[tasklist.size()][6];
+		tableData = new String[tasklist.size()][7];
 		for(int i = 0; i < tasklist.size();i++){
 			Turntask turntask = tasklist.get(i);
 			//if grpid == -1, it means that the group has no switches
@@ -121,10 +122,11 @@ public class GroupTaskFrame extends javax.swing.JFrame {
 				
 				tableData[i][0] = turntask.getSysname()+turntask.getTtname();
 				tableData[i][1] = switchNames.toString();
-				tableData[i][2] = turntask.getStart_time();
-				tableData[i][3] = turntask.getEnd_time();
-				tableData[i][4] = turntask.getDuration();
-				tableData[i][5] = turntask.getState() == 1?"运行":"停止";
+				tableData[i][2] = turntask.getExecute_date();
+				tableData[i][3] = turntask.getStart_time();
+				tableData[i][4] = turntask.getEnd_time();
+				tableData[i][5] = turntask.getDuration();
+				tableData[i][6] = turntask.getState() == 1?"运行":"停止";
 				
 			}
 		}
@@ -184,7 +186,7 @@ public class GroupTaskFrame extends javax.swing.JFrame {
 		// column1.setMinWidth(100);
 
 		TableColumn column2 = jTable1.getColumnModel().getColumn(1);
-		column2.setPreferredWidth(658);
+		column2.setPreferredWidth(598);
 		column2.setCellRenderer(new TextAreaCellRenderer());
 		// column2.setMaxWidth(685);
 		// column2.setMinWidth(685);
@@ -203,6 +205,9 @@ public class GroupTaskFrame extends javax.swing.JFrame {
 		column5.setPreferredWidth(60);
 		
 		TableColumn column6 = jTable1.getColumnModel().getColumn(5);
+		column6.setPreferredWidth(60);
+		
+		TableColumn column7 = jTable1.getColumnModel().getColumn(6);
 		column6.setPreferredWidth(60);
 	}
 
@@ -330,8 +335,15 @@ public class GroupTaskFrame extends javax.swing.JFrame {
 			// TODO Auto-generated method stub
 			TurnAction action = new TurnAction();
 			String sysname = selectedSysname.equals(defaultSysname)?"all":selectedSysname;
-			action.startTaskBySysname(sysname);
+			String daysBeforeStart = JOptionPane.showInputDialog(GroupTaskFrame.this, "请输入几天后执行任务：");
 			
+			try{
+				action.startTaskBySysname(sysname,Integer.parseInt(daysBeforeStart));
+				JOptionPane.showMessageDialog(GroupTaskFrame.this, "任务已启动！将在"+daysBeforeStart+"天后执行", "提示",
+						JOptionPane.YES_NO_OPTION);
+			}catch(NumberFormatException exception){
+				JOptionPane.showMessageDialog(GroupTaskFrame.this, "请输入阿拉伯数字！");
+			}
 		}
 	}
 	
