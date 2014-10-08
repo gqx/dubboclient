@@ -382,13 +382,24 @@ public class MainFrame extends javax.swing.JFrame {
 
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					System.out.println("itemname:"+itemName);
-					MapAttributeBean mb = mapAttrBeanMap.get(itemName);
-					MapFrame mapFrame  = MapFrame.getInstance(mb);
-					mapFrame.setLocationRelativeTo(null);
-					mapFrame.setVisible(true);
+					final WaitFrame inst = new WaitFrame();
+					inst.setLocationRelativeTo(null);
+					inst.setVisible(true);
+					
+					
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							
+							MapAttributeBean mb = mapAttrBeanMap.get(itemName);
+							MapFrame mapFrame  = MapFrame.getInstance(mb,inst);
+							mapFrame.setLocationRelativeTo(null);
+							mapFrame.setVisible(true);
+						}
+					});
 				}
 			});
+			
+			
 			
 			
 		}

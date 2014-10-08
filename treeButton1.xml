@@ -8,21 +8,25 @@
 <group id="1">
 <switch name="A-1-A"></switch>
 <switch name="A-1-B"></switch>
+</group>
+
+<group id="2">
 <switch name="A-2-A"></switch>
+<switch name="A-2-B"></switch>
 </group>
-<group id="2">
-<switch name="B-1-A"></switch>
-<switch name="B-2-A"></switch>
+
+<group id="3">
+<switch name="A-3-A"></switch>
+<switch name="A-3-B"></switch>
 </group>
-</day>
-<day id="2">
-<group id="1">
-<switch name="C-1-A"></switch>
-<switch name="C-2-A"></switch>
+
+<group id="4">
+<switch name="A-4-A"></switch>
+<switch name="A-4-B"></switch>
 </group>
-<group id="2">
-<switch name="C-3-A"></switch>
-<switch name="C-4-A"></switch>
+<group id="5">
+<switch name="A-5-A"></switch>
+<switch name="A-5-B"></switch>
 </group>
 </day>
 

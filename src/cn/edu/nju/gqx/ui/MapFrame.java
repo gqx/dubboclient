@@ -19,6 +19,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -91,7 +92,7 @@ public class MapFrame extends javax.swing.JFrame {
 //	private static String xmlPath;
 //	private static HashMap<String,String> pathlist = new HashMap<String, String>();
 	private static MapAttributeBean mb;
-	
+	private static JFrame frame;
 	/**
 	* Auto-generated main method to display this JFrame
 	*/
@@ -110,9 +111,11 @@ public class MapFrame extends javax.swing.JFrame {
 //		pathlist.put("1", "button.xml");
 //		pathlist.put("2", "button2.xml");
 		initGUI();
+		this.frame.dispose();
 	}
 	
-	public static MapFrame getInstance(MapAttributeBean mb){
+	public static MapFrame getInstance(MapAttributeBean mb,JFrame frame){
+		MapFrame.frame = frame;
 //		MapFrame.xmlPath = xmlPath;	
 		MapFrame.mb = mb;
 		if(instance == null){
@@ -126,7 +129,6 @@ public class MapFrame extends javax.swing.JFrame {
 	}
 	
 	private void initGUI() {
-		System.out.println("initGUI");
 		try {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			{
@@ -376,17 +378,38 @@ public class MapFrame extends javax.swing.JFrame {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			
-			
-			for(JButton button : buttonList){
-				SwitchAction action = new SwitchAction();
-				Switch s = action.getSwitchByName(button.getText());
-//				System.out.println(button.getText()+"  "+s.getName()+" "+s.getState());
-				if(s.getState() == Switch.ON_STATE){
-					button.setBackground(Color.green);
-				}else{
-					button.setBackground(Color.red);
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					final WaitFrame inst;
+					synchronized (this) {
+						inst = new WaitFrame();
+						inst.setLocationRelativeTo(null);
+						inst.setVisible(true);
+					}
+					
+					
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							for(JButton button : buttonList){
+								SwitchAction action = new SwitchAction();
+								Switch s = action.getSwitchByName(button.getText());
+//								System.out.println(button.getText()+"  "+s.getName()+" "+s.getState());
+								if(s.getState() == Switch.ON_STATE){
+									button.setBackground(Color.green);
+								}else{
+									button.setBackground(Color.red);
+								}
+							}
+							inst.dispose();
+						}
+					});
+					
+					
+					
 				}
-			}
+			});
+			
+		
 		}
 	}
 	
@@ -631,6 +654,14 @@ public class MapFrame extends javax.swing.JFrame {
 				return;			
 			}
 		}	
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
 	}
 	
 }
